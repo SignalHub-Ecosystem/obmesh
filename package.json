@@ -1,0 +1,25 @@
+{
+  "name": "obmesh",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "browserify -t sheetify ./app.js -o bundle.js"
+  },
+  "author": "m-onz",
+  "license": "MIT",
+  "dependencies": {
+    "choo": "^6.13.1",
+    "choo-persist": "^3.0.2",
+    "expiry-model": "^1.0.2",
+    "lodash": "^4.17.11",
+    "remember": "^1.0.1",
+    "sheetify": "^7.3.3",
+    "signalhub": "^4.9.0",
+    "webrtc-swarm": "^2.9.0",
+    "wrtc": "^0.3.2"
+  },
+  "devDependencies": {
+    "browserify": "^16.2.3"
+  }
+}
