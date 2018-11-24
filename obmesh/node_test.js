@@ -1,6 +1,5 @@
 
-
-var Obmesh = require('./node.js')
+var Obmesh = require('./server.js')
 
 var obmesh = Obmesh()
 

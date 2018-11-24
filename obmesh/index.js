@@ -5,7 +5,6 @@ var EventEmitter = require('events').EventEmitter
 var swarm = require('webrtc-swarm')
 var signalhub = require('signalhub')
 var ExpiryModel = require('expiry-model')
-var Remember = require('remember')
 var inherits = require('inherits')
 var crypto = require('crypto')
 
