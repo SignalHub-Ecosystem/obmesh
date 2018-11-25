@@ -11,7 +11,7 @@ module.exports = function (state, emit) {
     var body = new FormData(form)
     emit('message::obmesh', {
       message: body.get('message'),
-      title: body.get('title')
+      timestamp: new Date().toISOString()
     })
     emit('pushState', '/')
   }
@@ -20,8 +20,8 @@ module.exports = function (state, emit) {
     e.preventDefault()
     var form = e.currentTarget
     var body = new FormData(form)
-    console.log('private channel> ', body.get('private_channel'))
-    emit('refresh::obmesh', body.get('private_channel'))
+    console.log('private channel> ', body.get('private_channel'), body.get('readonly_channel'))
+    emit('refresh::obmesh', body.get('private_channel'), body.get('readonly_channel'))
     emit('render')
     alert('successfully set the private channel to ::'+state.obmesh_channel)
   }
@@ -46,22 +46,13 @@ module.exports = function (state, emit) {
       <a class="f6 link dim ba bw1 ph3 pv2 mb2 dib purple" href="#!" onclick=${change_mesh}>CHANGE MESH</a>
       <form id="broadcast" onsubmit=${onsubmit} class="measure center">
         <legend class="f4 fw6 ph0 mh0">Broadcast</legend>
-        <label for="username" class="db fw6 lh-copy f6">
-          Title
-        </label>
-        <input id="title" name="title"
-          type="text"
-          required
-          pattern=".{1,36}"
-          title="Title must be between 1 and 36 characters long."
-          class="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
-        ><br/><br/>
         <label for="message" class="db fw6 lh-copy f6">
           Message
         </label>
         <input id="message" name="message"
           class="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
           type="text"
+          pattern=".{1,32}"
           required>
           <br/><br/>
         <input type="submit" value="Broadcast"
@@ -79,12 +70,25 @@ module.exports = function (state, emit) {
           </h1>
           <form id="private" onsubmit=${onprivatesubmit} class="measure center">
             <legend class="f4 fw6 ph0 mh0">Colloborate</legend>
+            <label for="private_channel" class="db fw6 lh-copy f6">
+              Private channel
+            </label>
             <input id="private_channel" name="private_channel"
               class="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
               type="text"
-              pattern=".{1,255}"
+              pattern=".{1,64}"
               required>
               <br/><br/>
+              <label for="readonly" class="db fw6 lh-copy f6">
+                Read only channel
+              </label>
+              <input id="readonly" name="readonly"
+                type="text"
+                required
+                pattern=".{1,64}"
+                title="Read only channel must be between 1 and 64 characters long."
+                class="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
+              ><br/><br/>
             <input type="submit" value="Set the private mesh channel"
              class="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib">
           </form>

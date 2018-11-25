@@ -43,6 +43,14 @@ module.exports = function view (state, emit) {
     `
   }
 
+  function loadingSpinner () {
+    if (!rows.length) {
+      return html `
+        <h2>loading items</h2>
+      `
+    }
+  }
+
   function tableRow (item) {
     var _color = '#222'
     var sender = '----'
@@ -72,6 +80,7 @@ module.exports = function view (state, emit) {
         <ul class="list pl0 measure center" style="max-width: 95%!important; height: 500px;">
           <table class="table ${prefix}" onscroll=${onScrollDebounced} style="height: 500px;">
             <tbody>
+              ${loadingSpinner()}
               ${paddingRow(topPadding)}
               ${rows.map(tableRow)}
               ${paddingRow(bottomPadding)}

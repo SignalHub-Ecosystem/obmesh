@@ -3,27 +3,25 @@ var assert = require('assert')
 var Obmesh = require('../obmesh')
 
 module.exports = function (state, emitter) {
-  state.obmesh_channel = null
-  state.readonly_channel = 'a78fe7e930a9e9107ca9f1f35e8b1474749ace34b2ac51fa807028ad9ef9fa0a'
+  if (!state.obmesh_channel) state.obmesh_channel = 'Obmesh-mainline--m-onz-woz-ere'
+  if (!state.readonly_channel) state.readonly_channel = '19a73395cb90eb57cd7734751b7204429ac664f2a2b8cd2a5c3ac5a7e9dadbda'
   state.obmesh = Obmesh({
     channel: state.obmesh_channel,
     readonly: state.readonly_channel
   })
   if (!state.current_index) state.current_index = []
-  emitter.on('refresh::obmesh', function (private_channel) {
+  emitter.on('refresh::obmesh', function (private_channel, readonly_channel) {
     state.obmesh_channel = private_channel
+    state.readonly_channel = readonly_channel
     assert.ok(state.obmesh_channel)
-    console.log('> ', state.obmesh_channel)
+    assert.ok(state.readonly_channel)
     state.obmesh = Obmesh({
       channel: state.obmesh_channel,
       readonly: state.readonly_channel
     })
-    state.obmesh.db.on('ready', function () {
-      state.readonly_channel = state.obmesh.db.key.toString('hex')
-      console.log('updated readonly channel to ', state.readonly_channel)
-    })
   })
   emitter.on('message::obmesh', function (message) {
+    console.log('> message :: ', message)
     state.obmesh.add(message)
   })
   state.obmesh.db.watch('/mesh', function () {

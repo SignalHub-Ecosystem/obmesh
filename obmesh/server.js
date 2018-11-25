@@ -52,7 +52,7 @@ Obmesh.prototype.readonly = function () {
   var self = this
   this.db = hyperdb ('./obmesh4.db', { valueEncoding: 'json' })
   this.db.on('ready', function () {
-    console.log('<', self.db.key.toString('hex'), '>')
+    console.log('readonly channel <', self.db.key.toString('hex'), '>')
     var hub = signalhub(self.db.key.toString('hex'), self.signalhubs)
     var sw = swarm(hub, { wrtc: wrtc })
     sw.on('peer', function (peer, id) {
@@ -70,6 +70,7 @@ Obmesh.prototype.readonly = function () {
 Obmesh.prototype.connect = function () {
   var self = this
   this.hub = signalhub(self.options.channel, self.signalhubs)
+  console.log('mesh channel <', self.options.channel, '>')
   this.sw = swarm(this.hub, { wrtc: wrtc })
   this.sw.on('peer', function (peer, id) {
     console.log('<mesh> peer connected ', id)
