@@ -22,7 +22,7 @@ function Obmesh (options) {
     readonly: null,
     metadata: {} }, options)
   var self = this
-  self.signalhubs = [ 'http://localhost:9000' ]
+  self.signalhubs = [ 'https://telescope.computer' ]
   if (self.options.channel) {
     this.model = ExpiryModel(this.options)
     this.connect()

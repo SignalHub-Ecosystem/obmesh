@@ -20,7 +20,7 @@ function Obmesh (options) {
   if (!(this instanceof Obmesh)) return new Obmesh(options)
   EventEmitter.call(this)
   this.setMaxListeners(0)
-  this.signalhubs = [ 'http://localhost:9000' ]
+  this.signalhubs = [ 'https://telescope.computer' ]
   this.options = Object.assign({
     maxAge: DAY,
     channel: null,
