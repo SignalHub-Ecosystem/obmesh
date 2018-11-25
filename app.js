@@ -16,6 +16,8 @@ app.use(require('./store'))
 
 app.use(function (state, emitter) {
   console.log('<obmesh> started @', new Date().toISOString())
+  state.obmesh_channel = null
+  state.readonly_channel = '2e00be1f6b4b3a679567db2a9f57309f487a96a4a822a286fd6615009ddefbb0'
 })
 
 app.route('/', require('./views/list.js'))

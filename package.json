@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "browserify -t sheetify ./client.js -o bundle.js"
+    "build": "browserify -t sheetify ./app.js -o bundle.js"
   },
   "author": "m-onz",
   "license": "MIT",

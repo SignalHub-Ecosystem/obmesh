@@ -11,6 +11,7 @@ var fs = require('fs')
 var remember = Remember(fs)
 var inherits = require('inherits')
 var crypto = require('crypto')
+var path = require('path')
 var wrtc = require('wrtc')
 
 var DAY = 1000 * 60 * 60 * 24
@@ -19,16 +20,18 @@ function Obmesh (options) {
   if (!(this instanceof Obmesh)) return new Obmesh(options)
   EventEmitter.call(this)
   this.setMaxListeners(0)
+  this.signalhubs = [ 'http://localhost:9000' ]
   this.options = Object.assign({
     maxAge: DAY,
-    channel: 'Obmesh-mainline--m-onz-woz-ere',
+    channel: null,
     metadata: {} }, options)
   this.model = ExpiryModel(this.options)
-  this.readonly()
   this.connect()
+  this.readonly()
   var self = this
-  remember(this.model, process.cwd()+'/obmesh.json', function () {
-    console.log('synced')
+  var p = path.normalize(process.cwd()+'/obmesh.json')
+  remember(this.model, p, function () {
+    console.log('synced ', p)
   })
   setTimeout(function () {
     self.emit('ready', true)
@@ -38,8 +41,6 @@ function Obmesh (options) {
 inherits(Obmesh, EventEmitter)
 
 Obmesh.prototype.add = function (thing) {
-  // add *any* local update
-  // how to stop DDOS or SPAM???
   this.model.set(new Date().toISOString(), thing)
 }
 
@@ -52,24 +53,26 @@ Obmesh.prototype.readonly = function () {
   this.db = hyperdb ('./obmesh4.db', { valueEncoding: 'json' })
   this.db.on('ready', function () {
     console.log('<', self.db.key.toString('hex'), '>')
-    var hub = signalhub(self.db.key.toString('hex'),
-      [ 'http://localhost:9000' ])
+    var hub = signalhub(self.db.key.toString('hex'), self.signalhubs)
     var sw = swarm(hub, { wrtc: wrtc })
     sw.on('peer', function (peer, id) {
-      console.log('peer connected!')
+      console.log('<readonly> peer connected! ', id)
       peer.pipe(self.db.replicate({ live: true })).pipe(peer)
     })
-    setInterval(function () {
-      self.db.put('/mesh', { a: Math.random() })
-    }, 5000)
+    self.model.on('update', function (k, v) {
+      self.db.put('/mesh', self.model.history().map(function (i) {
+        return i[0][1]
+      }))
+    })
   })
 }
 
 Obmesh.prototype.connect = function () {
   var self = this
-  this.hub = signalhub(self.options.channel, [ 'http://localhost:9000' ])
+  this.hub = signalhub(self.options.channel, self.signalhubs)
   this.sw = swarm(this.hub, { wrtc: wrtc })
   this.sw.on('peer', function (peer, id) {
+    console.log('<mesh> peer connected ', id)
     peer.pipe(self.model.createStream()).pipe(peer)
     self.emit('peer', id, self.sw.peers.length)
   })
