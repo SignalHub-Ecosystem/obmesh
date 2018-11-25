@@ -20,7 +20,6 @@ module.exports = function view (state, emit) {
       ${nav(state, emit)}
       <br /><br /><br /><br />
       <main class="w-100 cf helvetica dark-gray bg-white pa3 pa4-m pa5-l mw9 center">
-      <a class="f6 link dim ba bw1 ph3 pv2 mb2 dib purple" href="/broadcast">Make a broadcast</a>
         <ul class="list pl0 measure center" style="max-width: 95%!important;">
           <table class="table ${prefix}">
             <tbody>
@@ -43,7 +42,7 @@ module.exports = function view (state, emit) {
            <i class="fas fa-ghost" style="color: ${_color};"></i>
           </div>
           <div class="dtc v-mid pl3">
-            <p><b style="font-size:0.7em;">[${item.timestamp}]</b>   ----  ${item.nick}</p>
+            <p><b style="font-size:0.7em;">[${item.timestamp}]</b> ---- ${item.message}</p>
           </div>
           <div class="dtc v-mid">
           </div>

@@ -4,9 +4,9 @@
 var EventEmitter = require('events').EventEmitter
 var swarm = require('webrtc-swarm')
 var signalhub = require('signalhub')
+var ExpiryModel = require('expiry-model')
 var storage = require('random-access-idb')
 var hyperdb = require('hyperdb')
-var ExpiryModel = require('expiry-model')
 var inherits = require('inherits')
 var crypto = require('crypto')
 
@@ -24,7 +24,6 @@ function Obmesh (options) {
   var self = this
   self.signalhubs = [ 'http://localhost:9000' ]
   if (self.options.channel) {
-    console.log('test with channel')
     this.model = ExpiryModel(this.options)
     this.connect()
     this.model.on('update', function (key, data) {
@@ -41,27 +40,21 @@ function Obmesh (options) {
       console.log('peer connected!')
       peer.pipe(self.db.replicate({ live: true })).pipe(peer)
     })
-    self.db.watch('/mesh', function () {
-      console.log('.......... /mesh ')
-      self.db.get('/mesh', function (e, d) {
-        if (!e && d && d[0].hasOwnProperty('value')) console.log(d[0].value)
-      })
-    })
     setTimeout(function () {
       self.emit('ready', self.db.key.toString('hex'))
     }, 1000)
   })
-
-
 }
 
 inherits(Obmesh, EventEmitter)
 
 Obmesh.prototype.add = function (thing) {
+  if (!this.model) return Error('read-only mode')
   this.model.set(new Date().toISOString(), thing)
 }
 
 Obmesh.prototype.history = function () {
+  if (!this.model) return Error('read-only mode')
   return this.model.history()
 }
 

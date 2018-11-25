@@ -7,7 +7,7 @@ var obmesh = Obmesh({
 
 obmesh.on('ready', function () {
   setInterval(function () {
-    obmesh.add({ a: Math.random() })
+    obmesh.add({ timestamp: new Date().toISOString(), message: 'hello world! '+Math.random() })
   }, 5000)
 })
 
