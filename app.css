@@ -9,32 +9,6 @@ html, body {
   font-family: 'Arial'
 }
 
-.group-tag {
-  position: absolute;
-  right: 55px;
-  top: 70px;
-}
-
-.chatbox {
-  width: 100%;
-  background: whitesmoke;
-  position: fixed!important;
-  bottom:0px!important;
-  z-index:99999999!important;
-}
-
-#comment {
-  resize: none;
-  border: none;
-  background: white;
-  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.3);
-  border-radius: 0px;
-}
-
-.storage-tile:hover {
-  background: white;
-}
-
 .toggle input[type=checkbox]{
 	height: 0;
 	width: 0;

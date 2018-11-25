@@ -18,6 +18,10 @@ module.exports = function (state, emitter) {
       channel: state.obmesh_channel,
       readonly: state.readonly_channel
     })
+    state.obmesh.db.on('ready', function () {
+      state.readonly_channel = state.obmesh.db.key.toString('hex')
+      console.log('updated readonly channel to ', state.readonly_channel)
+    })
   })
   emitter.on('message::obmesh', function (message) {
     state.obmesh.add(message)
@@ -27,5 +31,10 @@ module.exports = function (state, emitter) {
       if (!e && d && d[0]) state.current_index = d[0].value
       emitter.emit('render')
     })
+  })
+  state.scrollTop = 0
+  emitter.on('scroll', (scrollTop) => {
+    state.scrollTop = scrollTop
+    emitter.emit('render')
   })
 }

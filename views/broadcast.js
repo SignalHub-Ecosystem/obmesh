@@ -26,6 +26,12 @@ module.exports = function (state, emit) {
     alert('successfully set the private channel to ::'+state.obmesh_channel)
   }
 
+  function change_mesh (e) {
+    e.preventDefault()
+    state.obmesh_channel = ''
+    emit('render')
+  }
+
   function form (show) {
     if (show) {
     return html`
@@ -37,6 +43,7 @@ module.exports = function (state, emit) {
       </header>
       <br /><br />
       <div class="fn fl-ns w-50-ns">
+      <a class="f6 link dim ba bw1 ph3 pv2 mb2 dib purple" href="#!" onclick=${change_mesh}>CHANGE MESH</a>
       <form id="broadcast" onsubmit=${onsubmit} class="measure center">
         <legend class="f4 fw6 ph0 mh0">Broadcast</legend>
         <label for="username" class="db fw6 lh-copy f6">
@@ -87,23 +94,21 @@ module.exports = function (state, emit) {
     }
   }
 
+  state.scrollTop = 0
+
   return html`
     <body>
       ${nav(state, emit)}
-
     <br /><br /><br />
-
     <div class="pa3 pa5-ns">
     <main class="cf w-100">
       ${form (state.obmesh_channel)}
     </main>
     </div>
-
     <footer class="bg-near-black white-80 pv5 pv6-l ph4">
       <p class="f6"><span class="dib mr4 mr5-ns">OBMESH</span>
       </p>
     </footer>
-
     </body>
   `
 }
