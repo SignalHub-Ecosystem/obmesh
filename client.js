@@ -2,12 +2,12 @@
 
 var swarm = require('webrtc-swarm')
 var signalhub = require('signalhub')
-var hypertrie = require('hypertrie')
+var hyperdb = require('hyperdb')
 var storage = require('random-access-idb')
 
-var readonly = '367b82ac36ae046a09d963c15d149f3dfc94fea1d66a13c8fb8e1dbd5bcc471d'
+var readonly = '530d9bd19525137b518c4ede6133780e3164c658835beebaede46cc5f19ae357'
 
-var t = hypertrie (storage(readonly), readonly, { valueEncoding: 'json' })
+var t = hyperdb (storage(readonly), readonly, { valueEncoding: 'json' })
 
 t.on('ready', function () {
   console.log('test 2 !')

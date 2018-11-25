@@ -21,8 +21,7 @@ The idea is that anyone can replicate the read-only view but only chosen
 ## `gossip`
 
 An open broadcast mesh is a shared replicable data structure that uses
- gossip and conflict free replication. obmesh uses expiry-mod
- el (a subclass
+ gossip and conflict free replication. obmesh uses expiry-model (a subclass
  of scuttlebutt).
 
 ## `open broadcast mesh`
@@ -37,8 +36,7 @@ A message has a lifespan which is the time other peers will keep a record
 
 ## `security`
 
-The read-only data view uses a hypertrie shared over webRTC so that peers can verify the integrity
- of the dataset. Any one with access to the editable or private channel can SPAM, DDOS or cause issues.
+The read-only data view uses a hypertrie shared over webRTC so that peers can verify the integrity of the dataset. Any one with access to the editable or private channel can SPAM, DDOS or cause issues.
 
 ## `infrastructure`
 

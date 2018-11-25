@@ -1,11 +1,11 @@
 
-// obmesh
+// obmesh server
 
 var EventEmitter = require('events').EventEmitter
 var swarm = require('webrtc-swarm')
 var signalhub = require('signalhub')
 var ExpiryModel = require('expiry-model')
-var hypertrie = require('hypertrie')
+var hyperdb = require('hyperdb')
 var Remember = require('remember')
 var fs = require('fs')
 var remember = Remember(fs)
@@ -24,20 +24,9 @@ function Obmesh (options) {
     channel: 'Obmesh-mainline--m-onz-woz-ere',
     metadata: {} }, options)
   this.model = ExpiryModel(this.options)
-  // this.connect()
+  this.readonly()
+  this.connect()
   var self = this
-  // master hypertrie
-  var t = hypertrie ('./obmesh.db', { valueEncoding: 'json' })
-  // this.model.on('update', function (key, data) {
-  //   self.emit('update', key, data)
-    // self.hypertrie.put('/mesh', self.model.history().map(function (i) {
-    //   return i[0][1]
-    // }), function () {
-    //   self.hypertrie.get('/mesh', function (e, d) {
-    //     if (!e && d[0]) console.log(d[0].values)
-    //   })
-    // })
-  // })
   remember(this.model, process.cwd()+'/obmesh.json', function () {
     console.log('synced')
   })
@@ -56,6 +45,24 @@ Obmesh.prototype.add = function (thing) {
 
 Obmesh.prototype.history = function () {
   return this.model.history()
+}
+
+Obmesh.prototype.readonly = function () {
+  var self = this
+  this.db = hyperdb ('./obmesh4.db', { valueEncoding: 'json' })
+  this.db.on('ready', function () {
+    console.log('<', self.db.key.toString('hex'), '>')
+    var hub = signalhub(self.db.key.toString('hex'),
+      [ 'http://localhost:9000' ])
+    var sw = swarm(hub, { wrtc: wrtc })
+    sw.on('peer', function (peer, id) {
+      console.log('peer connected!')
+      peer.pipe(self.db.replicate({ live: true })).pipe(peer)
+    })
+    setInterval(function () {
+      self.db.put('/mesh', { a: Math.random() })
+    }, 5000)
+  })
 }
 
 Obmesh.prototype.connect = function () {
