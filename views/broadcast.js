@@ -111,6 +111,7 @@ module.exports = function (state, emit) {
     </div>
     <footer class="bg-near-black white-80 pv5 pv6-l ph4">
       <p class="f6"><span class="dib mr4 mr5-ns">OBMESH</span>
+      <a class="f6 link dim ba bw1 ph3 pv2 mb2 dib purple" href="https://github.com/m-onz/obmesh">CODE ON GITHUB</a>
       </p>
     </footer>
     </body>
