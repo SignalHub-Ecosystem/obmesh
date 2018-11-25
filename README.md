@@ -10,7 +10,7 @@ This experiment uses has a persistent data structure (shared across peers) calle
 
 There is also a node server peer that stores this data structure to disk as well maintaining a read-only view of the data inside a hyperdb instance.
 
-## live demo
+## `live demo`
 
 * temporarily running live [here](https://lense.space)
 
