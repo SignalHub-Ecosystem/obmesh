@@ -21,7 +21,6 @@ module.exports = function (state, emitter) {
     })
   })
   emitter.on('message::obmesh', function (message) {
-    console.log('> message :: ', message)
     state.obmesh.add(message)
   })
   state.obmesh.on('ready', function () {

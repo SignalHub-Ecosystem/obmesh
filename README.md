@@ -36,13 +36,23 @@ A message has a lifespan which is the time other peers will keep a record
 
 ## `security`
 
-The read-only data view uses a hypertrie shared over webRTC so that peers can verify the integrity of the dataset. Any one with access to the editable or private channel can SPAM, DDOS or cause issues.
+The read-only data view uses a hyperdb shared over webRTC so that peers can verify the integrity of the dataset. Any one with access to the editable or private channel can SPAM, DDOS or cause issues.
+
+## `how it works`
+
+The expiry model data structure is an array of messages, whenever this model changes
+ a hyperdb instance is also updated. Currently this is just /mesh with the entire
+model.history() (which could become huge!). Peers replicate the hyperdb to get the
+ latest list. Authorized peers have access to the editable channel, direct access
+to the model allows peers to add new messages.
 
 ## `infrastructure`
 
-A node server runs using wrtc (webRTC for node) and persists hypertrie and scuttlebutt models to disk.
+This could work entirely in the browser with no server infrastructure bar signalling servers. To persist messages I run a node server with wrtc (webRTC for node) and persists hyperdb and scuttlebutt models to disk.
+
 ```
 see /obmesh/server.js
+run with ./obmesh/node_test.js
 ```
 
 ## `spec`
@@ -52,3 +62,10 @@ see /obmesh/server.js
 * works in the browser with webRTC peering
 * gossip and conflict free data replication
 * distributed database with expiring messages
+
+## live
+
+* running live at (https://lense.space)[https://lense.space]
+
+This example has the editable channel configured so anyone can make a broadcast.
+ Its also possible to configure a 'read-only' mesh.
