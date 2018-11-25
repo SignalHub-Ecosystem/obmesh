@@ -24,10 +24,20 @@ module.exports = function (state, emitter) {
     console.log('> message :: ', message)
     state.obmesh.add(message)
   })
+  state.obmesh.on('ready', function () {
+    state.obmesh.db.get('/mesh', function (e, d) {
+      if (!e && d && d[0]) {
+        state.current_index = d[0].value
+        emitter.emit('render')
+      }
+    })
+  })
   state.obmesh.db.watch('/mesh', function () {
     state.obmesh.db.get('/mesh', function (e, d) {
-      if (!e && d && d[0]) state.current_index = d[0].value
-      emitter.emit('render')
+      if (!e && d && d[0]) {
+        state.current_index = d[0].value
+        emitter.emit('render')
+      }
     })
   })
   state.scrollTop = 0
