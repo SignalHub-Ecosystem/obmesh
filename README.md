@@ -63,9 +63,9 @@ run with ./obmesh/node_test.js
 * gossip and conflict free data replication
 * distributed database with expiring messages
 
-## live
+## live demo
 
-* running live at (https://lense.space)[https://lense.space]
+* temporarily running live (here)[https://lense.space]
 
 This example has the editable channel configured so anyone can make a broadcast.
  Its also possible to configure a 'read-only' mesh.
