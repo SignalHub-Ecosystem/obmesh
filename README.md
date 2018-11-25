@@ -37,13 +37,12 @@ A message has a lifespan which is the time other peers will keep a record
 
 ## `security`
 
-An open broadcast mesh may remove all barriers to getting a message out there
- but at the expense of security. There is no DDOS or SPAM protection of any
-  kind in this system.
+The read-only data view uses a hypertrie shared over webRTC so that peers can verify the integrity
+ of the dataset. Any one with access to the editable or private channel can SPAM, DDOS or cause issues.
 
-## `persistence`
+## `infrastructure`
 
-peers that run with node can persist their local state to disk..
+A node server runs using wrtc (webRTC for node) and persists hypertrie and scuttlebutt models to disk.
 ```
 see /obmesh/server.js
 ```
