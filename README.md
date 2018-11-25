@@ -1,6 +1,6 @@
 # obmesh
 
-open broadcast mesh
+open broadcast mesh [in progress]
 
 ## `overview`
 
@@ -9,10 +9,20 @@ Experimentatal mesh networks may have different security goals and properties. A
 * general, abitrary messages
 * urls, p2p resources
 
+## read-only & editable channels
+
+An obmesh has an editable and read-only channel. Anyone with access to the editable
+ channel can broadcast. Peers connected to the read-only channel replicate a read-only
+view.
+
+The idea is that anyone can replicate the read-only view but only chosen
+ peers can broadcast. Choosing 'chosen' peers must currently occur using a sidechannel.
+
 ## `gossip`
 
 An open broadcast mesh is a shared replicable data structure that uses
- gossip and conflict free replication. obmesh uses expiry-model (a subclass
+ gossip and conflict free replication. obmesh uses expiry-mod
+ el (a subclass
  of scuttlebutt).
 
 ## `open broadcast mesh`
@@ -38,15 +48,10 @@ peers that run with node can persist their local state to disk..
 see /obmesh/server.js
 ```
 
-## `conclusion`
+## `spec`
 
 * open message broadcasting
+* moderation with editable & read-only channels
 * works in the browser with webRTC peering
 * gossip and conflict free data replication
 * distributed database with expiring messages
-
-## `further work`
-
-* anti-dos / spam / backups
-* anonymisation & anonymity
-* crypto and secure channels

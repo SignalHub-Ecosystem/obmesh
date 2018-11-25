@@ -6,14 +6,14 @@ var obmesh = Obmesh()
 obmesh.on('ready', function () {
   setInterval(function () {
     obmesh.add({ nick: Math.random(), timestamp: Math.random() })
-    // console.log(obmesh.history())
-    obmesh.history().forEach(function (i) {
-      var timestamp = i[0][0]
-      var value = i[0][1]
-      console.log('> ', timestamp)
-      console.log('> ', value)
-    })
+    // obmesh.history().forEach(function (i) {
+    //   return i[0][1]
+    // })
   }, 5000)
 })
 
-obmesh.on('update', console.log)
+// obmesh.on('update', console.log)
+
+setInterval(function () {
+  
+}, 5000)

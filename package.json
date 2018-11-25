@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "browserify -t sheetify ./app.js -o bundle.js"
+    "build": "browserify -t sheetify ./client.js -o bundle.js"
   },
   "author": "m-onz",
   "license": "MIT",
@@ -12,7 +12,8 @@
     "choo": "^6.13.1",
     "choo-persist": "^3.0.2",
     "expiry-model": "^1.0.2",
-    "lodash": "^4.17.11",
+    "hypertrie": "^3.1.0",
+    "random-access-idb": "^1.2.0",
     "remember": "^1.0.1",
     "sheetify": "^7.3.3",
     "signalhub": "^4.9.0",

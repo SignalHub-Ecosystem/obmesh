@@ -1,7 +1,6 @@
 
 var html = require('choo/html')
 var css = require('sheetify')
-var debounce = require('lodash/debounce')
 var nav = require('../components/nav.js')
 
 var prefix = css`

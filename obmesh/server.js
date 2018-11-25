@@ -5,6 +5,7 @@ var EventEmitter = require('events').EventEmitter
 var swarm = require('webrtc-swarm')
 var signalhub = require('signalhub')
 var ExpiryModel = require('expiry-model')
+var hypertrie = require('hypertrie')
 var Remember = require('remember')
 var fs = require('fs')
 var remember = Remember(fs)
@@ -22,19 +23,27 @@ function Obmesh (options) {
     maxAge: DAY,
     channel: 'Obmesh-mainline--m-onz-woz-ere',
     metadata: {} }, options)
-
   this.model = ExpiryModel(this.options)
-  this.connect()
+  // this.connect()
   var self = this
-  this.model.on('update', function (key, data) {
-    self.emit('update', key, data)
+  // master hypertrie
+  var t = hypertrie ('./obmesh.db', { valueEncoding: 'json' })
+  // this.model.on('update', function (key, data) {
+  //   self.emit('update', key, data)
+    // self.hypertrie.put('/mesh', self.model.history().map(function (i) {
+    //   return i[0][1]
+    // }), function () {
+    //   self.hypertrie.get('/mesh', function (e, d) {
+    //     if (!e && d[0]) console.log(d[0].values)
+    //   })
+    // })
+  // })
+  remember(this.model, process.cwd()+'/obmesh.json', function () {
+    console.log('synced')
   })
   setTimeout(function () {
     self.emit('ready', true)
   }, 1000)
-  remember(this.model, process.cwd()+'/obmesh.json', function () {
-    console.log('synced')
-  })
 }
 
 inherits(Obmesh, EventEmitter)
@@ -51,7 +60,6 @@ Obmesh.prototype.history = function () {
 
 Obmesh.prototype.connect = function () {
   var self = this
-  // , 'https://telescope.computer'
   this.hub = signalhub(self.options.channel, [ 'http://localhost:9000' ])
   this.sw = swarm(this.hub, { wrtc: wrtc })
   this.sw.on('peer', function (peer, id) {
