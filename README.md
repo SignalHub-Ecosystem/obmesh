@@ -16,6 +16,9 @@ This experiment uses has a persistent data structure (shared across peers) calle
 
 There is also a node server peer that stores this data structure to disk as well maintaining a read-only view of the data inside a hyperdb instance.
 
+## `how it works`
+
+There are two channels, one is a scuttlebutt model (expiry-model) and the other is a read-only representation of that model stored in a hyperdb instance. Peers can download the read-only view from the read-only channel... the scuttlebutt model should be kept secret or given to chosen peers wou are allowed to edit the mesh.
 
 ## `todo & unsolved problems`
 
